@@ -14,4 +14,4 @@ Using this model we examined how the behavioral composition of the colony (numbe
 influence the colony's collective choice of which resource patches to exploit. Our results are described in a paper currently under
 review. The preprint of this paper is available on [BioRxiv ](https://www.biorxiv.org/content/10.1101/817270v1).
 
-#### We also [provide here](https://github.com/VandroiyLabs/ABBAS/tree/master/documentation/ODD) a description of the model using the Overview, Design concepts, and Details (ODD) protocol.
+#### We also [provide here](https://github.com/nlemanski/ABS_Honeybee_Foraging/ODD) a description of the model using the Overview, Design concepts, and Details (ODD) protocol.
