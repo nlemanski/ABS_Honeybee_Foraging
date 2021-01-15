@@ -1,5 +1,4 @@
-# ABS_Honeybee_Foraging
-Agent Based Simulation of Collective Foraging in Honeybees
+# Agent Based Simulation of Collective Foraging in Honeybees
 
 To examine how the spatial distribution of resources interacts with individual variation in behavior to shape collective foraging decisions, we developed a a spatially-explicit Agent-Based Model. This model is an extension of a previous model called ABBAS (Animal Behavior Based on Agents Simulations), the details of which can be found [here](https://github.com/thmosqueiro/ABBAS).
 
