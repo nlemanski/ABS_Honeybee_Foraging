@@ -1,1 +1,1 @@
-# ODD: Agent based simulation of a honey bee colony foraging on different landscapes
+# ODD: Overview, Design concepts, and Details (ODD) protocol
