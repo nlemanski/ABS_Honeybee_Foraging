@@ -5,7 +5,7 @@ Edited 1.30.2021
 
 Examining how floral diversity and patchiness jointly affect optimal scout:recruit ratio and optimal persistence.
 
-@author: natal
+@author: Natalie
 """
 
 import os
@@ -21,7 +21,7 @@ import numpy as np
 
 # Simulation parameters
 simulation_time = 21000 # changed from 10,000 to 21,000
-num_repetitions = 1
+num_repetitions = 150
 lastrep = 0
 
 # Number of bees`
@@ -29,8 +29,8 @@ total_bees  = 100 # total foragers in colony
 scout_nums = range(10,100,10) # different percentages of scouts considered
 
 # Persistence
-perst_vals = [1,3,5,7,10,13,16,20] # different persistence values considered
-#perst_vals = [16]
+#perst_vals = [1,3,5,7,10,13,16,20] # different persistence values considered
+perst_vals = [20] # value used in results
 
 # Setting save locations
 log_path = 'nlemanski/ABBAS/resource_distribution/model_output/Logs/'
