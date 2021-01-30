@@ -6,7 +6,7 @@ decisions, we developed a a spatially-explicit Agent-Based Model. This model is 
 
 This model simulates honey bees foraging in a two dimensional space containing food patches with three different qualities. These 
 food patches can be arranged in two alternative distributions: clumped and dispersed. The model implements detailed flight dynamics
-based on a stochastic diffusion processes, parametrized following a wide range of experiments (see below for more details), and a
+based on a stochastic diffusion processes, parametrized following a wide range of experiments, and a
 recruitment mechanism that mimics the [waggle dance in honey bees](https://en.wikipedia.org/wiki/Waggle_dance). Foragers were 
 divided into two groups, scouts and recruits, with each group having their own properties.
 
