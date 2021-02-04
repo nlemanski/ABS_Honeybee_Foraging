@@ -195,10 +195,14 @@ Foragers only interact with each other during the recruitment process at the hiv
 
 ### Stochasticity
 There are four stochastic elements in this model: creation of resources patches in the environment, assignment of scout drifting vectors, forager flight dynamics, and which advertised resources patches recruits decide to exploit.
-	Creation of resources patches: The environment is created with a stochastic process. In all model scenarios, we use an environment with three patches of resources, equally distant from the hive. Each cell within a resource patch contains a stochastic number of resource units, from 0-50.
-	Assignment of scout drifting vectors: The angle of the drifting vector of a scout was assigned from a uniform distribution between 0 and 2pi. Because the drifting vector of a forager defines its preferred direction of flight, scouts were equally likely to leave the hive in any direction. The magnitude of the vector was always the same to produce the same average velocity for all foragers.
-	The flight dynamics of each forager follow a diffusion process. This diffusion process is usually referred to as a Wiener process, which is a particular case of a Random Walk. On top of this diffusion process, foragers had a preferred direction of movement determined by their drifting vectors.
-	Recruits stochastically decide which recruiting forager to follow, with the probability of following any given forager proportional to the quality of the patch they advertise.
+
+* Creation of resources patches: The environment is created with a stochastic process. In all model scenarios, we use an environment with three patches of resources, equally distant from the hive. Each cell within a resource patch contains a stochastic number of resource units, from 0-50.
+	
+* Assignment of scout drifting vectors: The angle of the drifting vector of a scout was assigned from a uniform distribution between 0 and 2pi. Because the drifting vector of a forager defines its preferred direction of flight, scouts were equally likely to leave the hive in any direction. The magnitude of the vector was always the same to produce the same average velocity for all foragers.
+	
+* The flight dynamics of each forager follow a diffusion process. This diffusion process is usually referred to as a Wiener process, which is a particular case of a Random Walk. On top of this diffusion process, foragers had a preferred direction of movement determined by their drifting vectors.
+	
+* Recruits stochastically decide which recruiting forager to follow, with the probability of following any given forager proportional to the quality of the patch they advertise.
 
 ### Collectives
 All foragers in each simulation belong to a single colony. Foraging performance is calculated as the total amount of resources collected by all foragers in the colony.
