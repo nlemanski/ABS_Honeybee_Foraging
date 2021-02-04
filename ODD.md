@@ -97,36 +97,38 @@ At model initiation, the location, sizes, and qualities of the food patches are 
 At each time step, the model processes are executed in the following order:
 	
 1. The scout with the lowest forager ID executes its “update scout” submodel:
-  a. If the scout is in behavioral mode “searching for a new patch” or “returning to a previously visited patch,” it executes the “update position” submodel, in which its position is updated.
 	
-  b. If the scout is in behavioral mode “returning to the hive”:
+ a. If the scout is in behavioral mode “searching for a new patch” or “returning to a previously visited patch,” it executes the “update position” submodel, in which its position is updated.
 	
-   i. If its position is equal to (0,0), it executes submodel “scout returned”.
+ b. If the scout is in behavioral mode “returning to the hive”:
+	
+  i. If its position is equal to (0,0), it executes submodel “scout returned”.
 		
-   ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive.
+  ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive.
 		
-  c. If the scout is in behavioral mode “recruiting other foragers”:
-   i. The scout adds 1 to its elapsed dancing time.
-		
-   ii. If the scout’s elapsed dancing time ≥ the total dancing time parameter, tr, the elapsed dancing time is set to 0, the scout executes the “leave hive” submodel, and the scout’s patch memory vector is removed from the list of broadcasted positions.
+ c. If the scout is in behavioral mode “recruiting other foragers”:
 
-  d. If the scout’s position is outside the maximum boundaries of the landscape, the scout’s position is reset to (0,0) and its behavioral mode is set to “searching for a new patch.”
+  i. The scout adds 1 to its elapsed dancing time.
+		
+  ii. If the scout’s elapsed dancing time ≥ the total dancing time parameter, tr, the elapsed dancing time is set to 0, the scout executes the “leave hive” submodel, and the scout’s patch memory vector is removed from the list of broadcasted positions.
+
+ d. If the scout’s position is outside the maximum boundaries of the landscape, the scout’s position is reset to (0,0) and its behavioral mode is set to “searching for a new patch.”
 
 2. If the scout has found food, it:
 	
-	a. Executes its “found spot” submodel in which it:
+ a. Executes its “found spot” submodel in which it:
 	
-	i. Updates its patch memory to its current position
+  i. Updates its patch memory to its current position
 	
-	ii. Sets its behavioral mode to “returning to the hive”
+  ii. Sets its behavioral mode to “returning to the hive”
 	
-	b. Updates its foraging load
+ b. Updates its foraging load
 	
-	c. Updates the state variable patches found
+ c. Updates the state variable patches found
 	
-	d. Adds 1 to the state variable patch visits
+ d. Adds 1 to the state variable patch visits
 	
-	e. Removes 1 foraging load from its current position in the landscape
+ e. Removes 1 foraging load from its current position in the landscape
 
 3. The scout updates the state variable energy expenditure.
 
@@ -134,33 +136,37 @@ At each time step, the model processes are executed in the following order:
 
 5. The recruit with the lowest forager ID executes its “update recruit” submodel:
 	
-	a. If the behavioral mode is “waiting to be recruited,” the recruit executes the “recruitment” submodel.
+ a. If the behavioral mode is “waiting to be recruited,” the recruit executes the “recruitment” submodel.
 	
-	b. If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch,” it executes the “update position” submodel in which its position is updated.
+ b. If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch,” it executes the “update position” submodel in which its position is updated.
 	
-	c. If the behavioral mode is “recruiting other foragers”:
+ c. If the behavioral mode is “recruiting other foragers”:
 	
-	i. The recruit adds 1 to its elapsed dancing time
+  i. The recruit adds 1 to its elapsed dancing time
 	
-	ii. If the recruit’s elapsed dancing time ≥ the total dancing time parameter, tr, the recruit’s elapsed dancing time is set to 0, the recruit’s patch memory vector is removed from the list of broadcasted positions, and:
+  ii. If the recruit’s elapsed dancing time ≥ the total dancing time parameter, tr, the recruit’s elapsed dancing time is set to 0, the recruit’s patch memory vector is removed from the list of broadcasted positions, and:
 	
-	1. If the recruit’s return count ≥ the persistence parameter, the recruit’s behavioral mode is set to “waiting to be recruited”
+   1. If the recruit’s return count ≥ the persistence parameter, the recruit’s behavioral mode is set to “waiting to be recruited”
 	
-	2. If the recruit’s return count < the persistence parameter, the recruit’s behavioral mode is set to “returning to a previously visited patch”
+   2. If the recruit’s return count < the persistence parameter, the recruit’s behavioral mode is set to “returning to a previously visited patch”
 	
-	d. If the behavioral mode is “returning to the hive”:
+ d. If the behavioral mode is “returning to the hive”:
 	
-	i. If its position is equal to (0,0), it executes submodel “recruit returned”
+  i. If its position is equal to (0,0), it executes submodel “recruit returned”
 	
-	ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive
+  ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive
 	
-	e. If the recruit’s position is outside the maximum boundaries of the landscape, the recruit’s position is reset to (0,0).
+ e. If the recruit’s position is outside the maximum boundaries of the landscape, the recruit’s position is reset to (0,0).
 
 6. If the recruit has found food, it:
-	Changes its behavioral mode to “returning to the hive”
-	Updates its foraging load
-	Removes 1 foraging load from its current position in the landscape
-	Adds 1 to the state variable patch visits
+
+ a. Changes its behavioral mode to “returning to the hive”
+
+ b. Updates its foraging load
+
+ c. Removes 1 foraging load from its current position in the landscape
+
+ d. Adds 1 to the state variable patch visits
 
 7. The recruit updates the state variable energy expenditure.
 
