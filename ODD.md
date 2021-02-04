@@ -97,22 +97,20 @@ At model initiation, the location, sizes, and qualities of the food patches are 
 At each time step, the model processes are executed in the following order:
 	
 1. The scout with the lowest forager ID executes its “update scout” submodel:
+  a. If the scout is in behavioral mode “searching for a new patch” or “returning to a previously visited patch,” it executes the “update position” submodel, in which its position is updated.
 	
-	a. If the scout is in behavioral mode “searching for a new patch” or “returning to a previously visited patch,” it executes the “update position” submodel, in which its position is updated.
+  b. If the scout is in behavioral mode “returning to the hive”:
 	
-	b. If the scout is in behavioral mode “returning to the hive”:
-	
-	i. If its position is equal to (0,0), it executes submodel “scout returned”.
+   i. If its position is equal to (0,0), it executes submodel “scout returned”.
 		
-	ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive.
+   ii. If its position is not equal to (0,0), it moves 1 spatial unit closer to the hive.
 		
-	c. If the scout is in behavioral mode “recruiting other foragers”:
-	
-	i. The scout adds 1 to its elapsed dancing time.
+  c. If the scout is in behavioral mode “recruiting other foragers”:
+   i. The scout adds 1 to its elapsed dancing time.
 		
-	ii. If the scout’s elapsed dancing time ≥ the total dancing time parameter, tr, the elapsed dancing time is set to 0, the scout executes the “leave hive” submodel, and the scout’s patch memory vector is removed from the list of broadcasted positions.
-		
-	d. If the scout’s position is outside the maximum boundaries of the landscape, the scout’s position is reset to (0,0) and its behavioral mode is set to “searching for a new patch.”
+   ii. If the scout’s elapsed dancing time ≥ the total dancing time parameter, tr, the elapsed dancing time is set to 0, the scout executes the “leave hive” submodel, and the scout’s patch memory vector is removed from the list of broadcasted positions.
+
+  d. If the scout’s position is outside the maximum boundaries of the landscape, the scout’s position is reset to (0,0) and its behavioral mode is set to “searching for a new patch.”
 
 2. If the scout has found food, it:
 	
