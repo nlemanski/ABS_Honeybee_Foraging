@@ -21,58 +21,83 @@ The agents in the model represent honey bee foragers. The agents are divided int
 
 ### Agent attributes
 Each agent in the model has the following attributes:
-	Forager type (static): 
+
+1. Forager type (static): 
 Each agent is permanently classified as either a scout or a recruit.
-	Forager ID (static):
+
+2. Forager ID (static):
 Each agent is permanently assigned a number, between 1 and 100, as their identity. This number determines the order in which agents are updated at each time step.
-	Spatial position (dynamic): 
+
+3. Spatial position (dynamic): 
 Each agent has a spatial position, given by a vector (x,y). The position is measured with respect to the hive, located at position (0,0).
-	Drifting vector (dynamic): 
+
+4. Drifting vector (dynamic): 
 Each agent has a drifting vector, which defines the agent’s preferred direction of movement after leaving the hive. An agent’s actual movement is determined by its drifting vector plus a random error term.
-	Patch memory (dynamic): 
+
+5. Patch memory (dynamic): 
 Each agent stores the location of the food patch they have most recently visited. The location of the stored food patch is given by a vector (x,y).
-	Foraging load (dynamic):
+
+6. Foraging load (dynamic):
 Each agent stores the food quality of the patch they have most recently visited, as an integer, from 1-3, increasing with quality.
-	Behavioral mode (dynamic): 
+
+7. Behavioral mode (dynamic): 
 Agents classified as scouts move between four different behavioral modes, 1) searching for a new food patch, 2) returning to a previously visited patch, 3) returning to the hive, and 4) recruiting other foragers to a food patch. 
 Agents classified as recruits move between five different behavioral modes, 1) waiting to be recruited, 2) searching for an advertised patch, 3) returning to a previously visited patch, 4) returning to the hive, and 5) recruiting other foragers to a food patch.
-	Velocity (dynamic):
+
+8. Velocity (dynamic):
 Each agent has a velocity, which defines how far the agent moves per time step. This velocity is set to 1.5 spatial units per time step when a forager is searching for a new food patch and set to 1 spatial unit per time step when a forager is returning to a previously visited patch.
-	Movement error (dynamic):
+
+9. Movement error (dynamic):
 Each agent has a movement error, which determines the magnitude of the random deviation from the agent’s drifting vector. The movement error is set to 5 when a forager is searching for a new food patch and set to 2 when a forager is returning to a previously visited patch.
-	Return count (dynamic):
+
+10. Return count (dynamic):
 Each agent has a return count (an integer), which tracks the number of times the forager has visited its most recently visited food patch.
-	Elapsed dancing time (dynamic):
+	
+11. Elapsed dancing time (dynamic):
 When a forager is in the behavioral mode, “recruiting other foragers,” its elapsed dancing time tracks the number of time steps it has spent recruiting so far.
 
 ### Global state variables
+
 The environment has the following global state variables that are updated throughout the simulation:
-	Time (dynamic):
+
+1. Time (dynamic):
 Time is modeled in discrete steps.
-	Food collected (dynamic):
+	
+2. Food collected (dynamic):
 The cumulative number of food units collected by all foragers in the colony.
-	Energy expenditure (dynamic):
+
+3. Energy expenditure (dynamic):
 The cumulative energy expended by all foragers in the colony.
-	Patch visits (dynamic):
+
+4. Patch visits (dynamic):
 The cumulative number of times each patch has been visited by a forager.
-	Patches found (dynamic):
+
+5. Patches found (dynamic):
 The cumulative number of scouts that have found food.
-	Recruited bees (dynamic):
+
+6. Recruited bees (dynamic):
 The number of recruits that are currently exploiting a food patch and unavailable to be recruited.
-	Proportion recruited (dynamic):
+	
+7. Proportion recruited (dynamic):
 Proportion of all recruits that are currently exploiting a food patch and unavailable to be recruited.
-	Broadcasted positions (dynamic):
+
+8. Broadcasted positions (dynamic):
 The set of all locations that are currently being recruited to, expressed as an array of vectors.
 
 ### Scale
+
 Each side of the two-dimensional model landscape is 36 m long, for a total area of 1.3 km2. Each unit of space is approximately 72 cm.
 Each unit of time in the simulation represents approximately 1.2 seconds. The simulation was run for 21000 time steps, representing approximately 7 hours of simulated time.
 On each foraging trip, a forager collects 1 foraging load, equivalent to 0.1 mL of nectar. Depending on the patch quality, 1 foraging load contains 1, 2, or 3 units of food; 1 unit of food is equivalent to approximately 34 mg sucrose.
 
 ## Process overview and scheduling
+
 At model initiation, the location, sizes, and qualities of the food patches are defined using the “resource landscape” submodel and 100 foragers are created using the “create forager” submodel. To determine the order in which agents will act, each forager is assigned an arbitrary forager ID from 1 to 100.
+
 At each time step, the model processes are executed in the following order:
-	The scout with the lowest forager ID executes its “update scout” submodel:
+	
+1. The scout with the lowest forager ID executes its “update scout” submodel:
+	
 	If the scout is in behavioral mode “searching for a new patch” or “returning to a previously visited patch,” it executes the “update position” submodel, in which its position is updated
 	If the scout is in behavioral mode “returning to the hive”:
 	If its position is equal to (0,0), it executes submodel “scout returned”
@@ -91,7 +116,7 @@ At each time step, the model processes are executed in the following order:
 	Removes 1 foraging load from its current position in the landscape
 	The scout updates the state variable energy expenditure.
 	Steps 1-3 are repeated for all remaining scouts, in ascending order of forager ID.
-	The recruit with the lowest forager ID executes its “update recruit” submodel:
+2. The recruit with the lowest forager ID executes its “update recruit” submodel:
 	If the behavioral mode is “waiting to be recruited,” the recruit executes the “recruitment” submodel.
 	If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch,” it executes the “update position” submodel in which its position is updated.
 	If the behavioral mode is “recruiting other foragers”:
@@ -109,7 +134,7 @@ At each time step, the model processes are executed in the following order:
 	Removes 1 foraging load from its current position in the landscape
 	Adds 1 to the state variable patch visits
 	The recruit updates the state variable energy expenditure.
-	Steps 5-7 are repeated for all remaining recruits, in ascending order of forager ID.
+3. Steps 5-7 are repeated for all remaining recruits, in ascending order of forager ID.
 	The state variable recruited bees is set equal to the number of recruits that are in behavioral mode “searching for an advertised food patch,” “returning to a previously visited patch,” or “returning to the hive.”
 	The global state variable proportion recruited is updated. Proportion recruited is equal to recruited bees divided by the total number of recruits.
 
