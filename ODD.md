@@ -5,7 +5,9 @@ The model was implemented using Python v.2.7. The source code of our model imple
 
 ## Purpose
 The purpose of this model is to examine how the spatial distribution of resources in the environment interacts with individual variation in behavior to shape collective foraging decisions. The model is intended to both reproduce observed patterns of collective behavior in honey bees and to generate new hypotheses for empirical studies of the interaction between individual variation in behavior and landscape structure in shaping collective decision making in honey bees.
+
 Specifically, the goals of the model are to 1) reproduce the emergent pattern of a colony collectively choosing among food patches of different qualities, based on quality-based differences in recruitment, 2) develop predictions about how the spatial distribution of food resources influences a colony’s collective choice of food patches, 3) develop predictions about how the behavioral composition of the colony influences the colony’s collective choice of food patch, and 4) develop predictions about trade-offs between a colony’s ability to locate food patches and its ability to selectively exploit the highest quality patches.
+
 This model was designed for ecologists, behavioral biologists, and computational biologists interested in the effect of environmental features on emergent collective behaviors, such as the foraging behavior of honey bees and other social animals. We detail the model below to allow anyone with basic knowledge of agent-based modelling to reproduce our code in Python or re-implement our model in a language of their choice.
 
 ## Entities, state variables, and scales
