@@ -238,175 +238,173 @@ See Table 1 for full list of parameter values.
 
 Generates the resource landscape in which the colony forages (Figure S2).
 
-The landscape consists of three 2-dimensional grids, each defining the location of one of the three food patches. 
+* The landscape consists of three 2-dimensional grids, each defining the location of one of the three food patches. 
 
-* Patch 1 contains high quality food
+ * Patch 1 contains high quality food
+ * Patch 2 contains medium quality food
+ * Patch 3 contains low quality food
 
-* Patch 2 contains medium quality food
+* Each patch has x and y coordinates, which define the patch’s center.
 
-* Patch 3 contains low quality food
+* The model can have two alternate types of resource landscape, where d is the distance from the hive to each patch center (200 spatial units):
 
-Each patch has x and y coordinates, which define the patch’s center.
+ * For the evenly dispersed landscape:
 
-The model can have two alternate types of resource landscape, where d is the distance from the hive to each patch center (200 spatial units):
+  * The coordinates (x,y) of patch 1 are (dsin⁡(0), dcos⁡(0))
+  * The coordinates of patch 2 are (dsin⁡(2π/3), dcos⁡(2π))
+  * The coordinates of patch 3 are (dsin⁡(4π/3), dcos⁡(4π/3))
 
-* For the evenly dispersed landscape:
+ * For the clumped landscape:
+  * The coordinates (x, y) of patch 1 are  (dsin⁡(-2π/15),dcos⁡(-2π/15))
+  * The coordinates of patch 2 are (dsin⁡(0),dcos⁡(0))
+  * The coordinates of patch 3 are (dsin⁡(2π/15), dcos(2π/15))
 
-  * The coordinates (x,y) of patch 1 are (d sin⁡〖(0)〗,d cos⁡〖(0〗 ))
-  * The coordinates of patch 2 are (d sin⁡〖(2π/3〗), d cos⁡〖(2π/3〗))
-  * The coordinates of patch 3 are (d sin⁡〖(4π/3〗), d cos⁡〖(4π/3〗))
+* The length and width of each patch (parameter c) is 40 spatial units. 
 
-* For the clumped landscape:
-  * The coordinates (x, y) of patch 1 are  (d sin⁡〖(-2π/15〗),d cos⁡〖(-2π/15〗))
-  * The coordinates of patch 2 are (d sin⁡(0),d cos⁡〖(0〗 ))
-  * The coordinates of patch 3 are (d sin⁡〖(2π/15〗), d cos⁡〖(2π/15〗))
-
-The length and width of each patch (parameter c) is 40 spatial units. 
-
-Within each patch, the exact location of food is determined by a Poisson point process:
-* Each cell within the patch has a 0.6 probability to contain food (parameter p).
-* Cells with food are assigned between 1 and 50 foraging loads, drawn from a uniform distribution.
+* Within each patch, the exact location of food is determined by a Poisson point process:
+ * Each cell within the patch has a 0.6 probability to contain food (parameter p).
+ * Cells with food are assigned between 1 and 50 foraging loads, drawn from a uniform distribution.
 
 ### Create forager
-	Each forager is assigned a unique forager ID, between 1 and 100, to determine the order in which the agents act. 
-	Each forager has an initial x and y position of (0,0), the location of the hive. 
-	Each forager’s initial foraging load, elapsed dancing time, and return count are set to 0 and initial patch memory is set to an empty vector. 
-	Each forager’s persistence (the number of times they return to a patch) is set to 20. 
-	Each forager is assigned a forager type of scout or recruit:
-	For scouts:
-	The initial behavioral mode is set to “searching for a new food patch.” 
-	The initial velocity is 1.5 and the initial movement error is 5.
-	For recruits:
-	The initial behavioral mode is set to “waiting to be recruited.”
-	The initial velocity is 1 and the initial movement error is 2.
+* Each forager is assigned a unique forager ID, between 1 and 100, to determine the order in which the agents act. 
+* Each forager has an initial x and y position of (0,0), the location of the hive. 
+* Each forager’s initial foraging load, elapsed dancing time, and return count are set to 0 and initial patch memory is set to an empty vector. 
+* Each forager’s persistence (the number of times they return to a patch) is set to 20. 
+* Each forager is assigned a forager type of scout or recruit:
+ * For scouts:
+  * The initial behavioral mode is set to “searching for a new food patch.” 
+  * The initial velocity is 1.5 and the initial movement error is 5.
+ * For recruits:
+  * The initial behavioral mode is set to “waiting to be recruited.”
+  * The initial velocity is 1 and the initial movement error is 2.
 
 ### Update scout
-	If a scout is in behavioral mode “searching for a new food patch” or “returning to a previously visited patch”:
-	The scout executes submodel “update position.”
-	If the scout is in behavioral mode “returning to the hive”:
-	If the scout’s position is within 3 spatial units of the hive, the scout executes submodel “scout returned.”
-	If the scout’s position is not within 3 spatial units of the hive, the position is moved one spatial unit closer to the hive.
-	If the scout is in behavioral mode “recruiting other foragers”
-	The scout adds 1 to the elapsed dancing time.
-	If the elapsed dancing time is ≥ tr (the total dancing time):
-	The elapsed dancing time is set to 0.
-	If the return count ≥ persistence, the behavioral mode is set to “searching for a new food patch.”
-	If the return count < persistence, the behavioral mode is set to “returning to a previously visited patch.”
-	The scout executes the “leave hive” submodel.
-	The scout’s patch memory is removed from the set of broadcasted positions.
-	If the scout’s x or y position is > 250 spatial units from the hive:
-	The position is set to (0,0).
-	If the behavioral mode is not “searching for a new patch,” the behavioral mode is set to “returning to a previously visited patch.”
+* If a scout is in behavioral mode “searching for a new food patch” or “returning to a previously visited patch”:
+ * The scout executes submodel “update position.”
+  * If the scout is in behavioral mode “returning to the hive”:
+   * If the scout’s position is within 3 spatial units of the hive, the scout executes submodel “scout returned.”
+   * If the scout’s position is not within 3 spatial units of the hive, the position is moved one spatial unit closer to the hive.
+* If the scout is in behavioral mode “recruiting other foragers”
+  * The scout adds 1 to the elapsed dancing time.
+  * If the elapsed dancing time is ≥ tr (the total dancing time):
+   * The elapsed dancing time is set to 0.
+   * If the return count ≥ persistence, the behavioral mode is set to “searching for a new food patch.”
+   * If the return count < persistence, the behavioral mode is set to “returning to a previously visited patch.”
+   * The scout executes the “leave hive” submodel.
+   * The scout’s patch memory is removed from the set of broadcasted positions.
+* If the scout’s x or y position is > 250 spatial units from the hive:
+ * The position is set to (0,0).
+ * If the behavioral mode is not “searching for a new patch,” the behavioral mode is set to “returning to a previously visited patch.”
 
 ### Update recruit
-	If the recruit’s behavioral mode is “waiting to be recruited”:
-	The recruit executes the submodel “recruitment.”
-	If the recruit’s behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch”:
-	The recruit executes submodel “update position.”
-	If the recruit is in behavioral mode “returning to the hive”:
-	If the recruit’s position is within 3 spatial units of the hive, the recruit executes submodel “recruit returned.”
-	If the recruit ‘s position is not within 3 spatial units of the hive, the position is moved one spatial unit closer to the hive.
-	If the recruit is in behavioral mode “recruiting other foragers”:
-	The recruit adds 1 to the elapsed dancing time.
-	If the elapsed dancing time is ≥ tr (the total dancing time):
-	The elapsed dancing time is set to 0.
-	If the return count ≥ persistence, the behavioral mode is set to “waiting to be recruited.”
-	If the return count < persistence, the behavioral mode is set to “returning to a previously visited patch.”
-	The recruit executes the “leave hive” submodel.
-	The recruit’s patch memory is removed from the set of broadcasted positions.
-	If the recruit’s x or y position is > 250 spatial units from the hive:
-	The position is set to (0,0).
+* If the recruit’s behavioral mode is “waiting to be recruited”:
+ * The recruit executes the submodel “recruitment.”
+* If the recruit’s behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch”:
+ * The recruit executes submodel “update position.”
+* If the recruit is in behavioral mode “returning to the hive”:
+ * If the recruit’s position is within 3 spatial units of the hive, the recruit executes submodel “recruit returned.”
+ * If the recruit ‘s position is not within 3 spatial units of the hive, the position is moved one spatial unit closer to the hive.
+* If the recruit is in behavioral mode “recruiting other foragers”:
+ * The recruit adds 1 to the elapsed dancing time.
+ * If the elapsed dancing time is ≥ tr (the total dancing time):
+  * The elapsed dancing time is set to 0.
+  * If the return count ≥ persistence, the behavioral mode is set to “waiting to be recruited.”
+  * If the return count < persistence, the behavioral mode is set to “returning to a previously visited patch.”
+  * The recruit executes the “leave hive” submodel.
+  * The recruit’s patch memory is removed from the set of broadcasted positions.
+* If the recruit’s x or y position is > 250 spatial units from the hive:
+ * The position is set to (0,0).
 
 ### Update position
-	If the behavioral mode is “searching for a new patch”:
-	A random number, n, is drawn from a uniform distribution between -0.5 and 0.5.
-	The forager is assigned a movement angle, θ, equal to their movement error * n + the angle of their drifting vector.
-	The forager’s x position increases by velocity * cos(θ).
-	The forager’s y position increases by velocity * sin(θ).
-	The global variable energy expenditure is increased by dE where:
+* If the behavioral mode is “searching for a new patch”:
+ * A random number, n, is drawn from a uniform distribution between -0.5 and 0.5.
+ * The forager is assigned a movement angle, θ, equal to their movement error * n + the angle of their drifting vector.
+ * The forager’s x position increases by velocity * cos(θ).
+ * The forager’s y position increases by velocity * sin(θ).
+ * The global variable energy expenditure is increased by dE where:
 
-dE=a+dx^3
-and
-dx=√((velocity cos(θ))^2+(velocity*sin(θ))^2 )
-	If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch” and the current position – the drifting vector > 0:
-	A random number, n, is drawn from a uniform distribution between -0.5 and 0.5.
-	The forager is assigned a movement angle, θ, equal to their movement error * n + the angle of their drifting vector.
-	The forager’s x position increases by velocity * cos(θ).
-	The forager’s y position increases by velocity * sin(θ).
-	The global variable energy expenditure is increased by dE where: 
+   dE=a+dx^3
+   and
+   dx=√((velocity cos(θ))^2+(velocity*sin(θ))^2 )
+* If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch” and the current position – the drifting vector > 0:
+ * A random number, n, is drawn from a uniform distribution between -0.5 and 0.5.
+ * The forager is assigned a movement angle, θ, equal to their movement error * n + the angle of their drifting vector.
+ * The forager’s x position increases by velocity * cos(θ).
+ * The forager’s y position increases by velocity * sin(θ).
+ * The global variable energy expenditure is increased by dE where: 
 
-dE=a+dx^3
-and
-√((velocity cos(θ))^2+(velocity*sin(θ))^2 )
-	If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch” and the current position – the drifting vector ≤ 0:
-	The change in x position, dx = 3 * a random number between -0.5 and 0.5
-	The change in y position, dy = 3 * a random number between -0.5 and 0.5
-	The global variable energy expenditure is increased by: √(〖dx〗^2+〖dy〗^2 )
+   dE=a+dx^3
+   and
+   √((velocity cos(θ))^2+(velocity*sin(θ))^2 )
+* If the behavioral mode is “searching for an advertised patch” or “returning to a previously visited patch” and the current position – the drifting vector ≤ 0:
+ * The change in x position, dx = 3 * a random number between -0.5 and 0.5
+ * The change in y position, dy = 3 * a random number between -0.5 and 0.5
+ * The global variable energy expenditure is increased by: √(dx^2+dy^2)
 
 ### Scout returned
-	If the scout’s return count ≥ persistence:
-	The behavioral mode is set to “searching for a new patch.”
-	The return count is set to 0.
-	If the scout’s return count = 0, the scout begins recruiting with a probability of 0.33 x foraging load.
-	If the scout begins recruiting:
-	The scout’s behavioral mode is set to “recruiting other foragers.”
-	The scout’s patch memory is added to the set of broadcasted positions.
-	If the scout does not begin recruiting:
-	The behavioral mode is set to “returning to a previously visited patch.”
-	The scout executes the submodel “leave hive.”
-	The scout’s return count increases by 1.
-	If the scout’s return count < persistence but > 0:
-	The behavioral mode is set to “returning to a previously visited patch.”
-	The scout’s return count increases by 1.
-	The scout executes the submodel “leave hive.”
-	The scout’s position is set to (0,0).
-	The global variable food collected is increased by the scout’s foraging load.
-	The scout’s foraging load is set to 0.
+* If the scout’s return count ≥ persistence:
+ * The behavioral mode is set to “searching for a new patch.”
+ * The return count is set to 0.
+ * If the scout’s return count = 0, the scout begins recruiting with a probability of 0.33 x foraging load.
+ * If the scout begins recruiting:
+  * The scout’s behavioral mode is set to “recruiting other foragers.”
+  * The scout’s patch memory is added to the set of broadcasted positions.
+ * If the scout does not begin recruiting:
+  * The behavioral mode is set to “returning to a previously visited patch.”
+  * The scout executes the submodel “leave hive.”
+ * The scout’s return count increases by 1.
+* If the scout’s return count < persistence but > 0:
+ * The behavioral mode is set to “returning to a previously visited patch.”
+ * The scout’s return count increases by 1.
+ * The scout executes the submodel “leave hive.”
+ * The scout’s position is set to (0,0).
+* The global variable food collected is increased by the scout’s foraging load.
+* The scout’s foraging load is set to 0.
 
 ### Recruit returned
-	If the recruit’s return count ≥ persistence:
-	The behavioral mode is set to “waiting to be recruited.”
-	The return count is set to 0.
-	If the recruit’s return count = 0, the recruit begins recruiting with a probability of 0.1 x foraging load.
-	If the recruit begins recruiting:
-	The recruit’s behavioral mode is set to “recruiting other foragers.”
-	The recruit’s patch memory is added to the set of broadcasted positions.
-	If the recruit does not begin recruiting:
-	The behavioral mode is set to returning to a previously visited patch.
-	The recruit executes the submodel “leave hive.”
-	The recruit’s return count increases by 1.
-	If the recruit’s return count < persistence but > 0:
-	The behavioral mode is set to “returning to a previously visited patch.”
-	The recruit’s return count increases by 1.
-	The recruit executes the submodel “leave hive.”
-	The recruit’s position is set to (0,0).
-	The global variable food collected is increased by the recruit’s foraging load.
-	The recruit’s foraging load is set to 0.
+* If the recruit’s return count ≥ persistence:
+ * The behavioral mode is set to “waiting to be recruited.”
+ * The return count is set to 0.
+* If the recruit’s return count = 0, the recruit begins recruiting with a probability of 0.1 x foraging load.
+ * If the recruit begins recruiting:
+  * The recruit’s behavioral mode is set to “recruiting other foragers.”
+  * The recruit’s patch memory is added to the set of broadcasted positions.
+ * If the recruit does not begin recruiting:
+  * The behavioral mode is set to returning to a previously visited patch.
+  * The recruit executes the submodel “leave hive.”
+  * The recruit’s return count increases by 1.
+* If the recruit’s return count < persistence but > 0:
+ * The behavioral mode is set to “returning to a previously visited patch.”
+ * The recruit’s return count increases by 1.
+ * The recruit executes the submodel “leave hive.”
+ * The recruit’s position is set to (0,0).
+ * The global variable food collected is increased by the recruit’s foraging load.
+ * The recruit’s foraging load is set to 0.
 
 ### Leave hive
-	If the forager’s behavioral mode is set to “searching for a new patch”:
-	The patch memory is set to an empty vector.
-	The return count is set to 0.
-	The velocity is set to 1.5.
-	The movement error is set to 5.
-	The forager is assigned a new drifting vector, (x,y), by drawing an angle from a uniform distribution between 0 and 2pi.
-	If the forager’s behavioral mode is set to “returning to a previously visited patch”:
-	The velocity is set to 1.
-	The movement error is set to 2.
-	The drifting vector is set equal to the patch memory vector divided by the norm of the patch memory vector.
+* If the forager’s behavioral mode is set to “searching for a new patch”:
+ * The patch memory is set to an empty vector.
+ * The return count is set to 0.
+ * The velocity is set to 1.5.
+ * The movement error is set to 5.
+ * The forager is assigned a new drifting vector, (x,y), by drawing an angle from a uniform distribution between 0 and 2pi.
+* If the forager’s behavioral mode is set to “returning to a previously visited patch”:
+ * The velocity is set to 1.
+ * The movement error is set to 2.
+ * The drifting vector is set equal to the patch memory vector divided by the norm of the patch memory vector.
 
 ### Found spot
-	When a forager’s position is within 1 spatial unit of a cell that contains food:
-	The forager’s behavioral mode changes to “returning to the hive.” 
-	The forager’s patch memory is set equal to the forager’s current position.
-	The forager’s foraging load is set equal to the quality of the most recently visited patch.
+* When a forager’s position is within 1 spatial unit of a cell that contains food:
+ * The forager’s behavioral mode changes to “returning to the hive.” 
+ * The forager’s patch memory is set equal to the forager’s current position.
+ * The forager’s foraging load is set equal to the quality of the most recently visited patch.
 
 ### Recruitment
-	If the set of broadcasted positions contains at least one location vector, the recruit is activated with probability equal to 0.1 / the number of recruits in behavioral mode “waiting to be recruited.”
-	If the recruit is activated:
-	Its behavioral mode is set to “searching for an advertised food patch.”
-	Its patch memory is set equal to a vector from the set of broadcasted positions. The probability of choosing each vector is proportional to the quality, q, associated with that location.
-	Its drifting vector is set to equal to the recruited position divided by the norm of the recruited position.
+* If the set of broadcasted positions contains at least one location vector, the recruit is activated with probability equal to 0.1 / the number of recruits in behavioral mode “waiting to be recruited.”
+* If the recruit is activated:
+ * Its behavioral mode is set to “searching for an advertised food patch.”
+ * Its patch memory is set equal to a vector from the set of broadcasted positions. The probability of choosing each vector is proportional to the quality, q, associated with that location.
+ * Its drifting vector is set to equal to the recruited position divided by the norm of the recruited position.
 
 ## References
 
