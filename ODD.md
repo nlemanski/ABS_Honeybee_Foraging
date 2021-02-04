@@ -243,31 +243,23 @@ See Table 1 for full list of parameter values.
 Generates the resource landscape in which the colony forages (Figure S2).
 
 * The landscape consists of three 2-dimensional grids, each defining the location of one of the three food patches. 
-
- * Patch 1 contains high quality food
- * Patch 2 contains medium quality food
- * Patch 3 contains low quality food
-
+  * Patch 1 contains high quality food
+  * Patch 2 contains medium quality food
+  * Patch 3 contains low quality food
 * Each patch has x and y coordinates, which define the patch’s center.
-
 * The model can have two alternate types of resource landscape, where d is the distance from the hive to each patch center (200 spatial units):
-
- * For the evenly dispersed landscape:
-
-  * The coordinates (x,y) of patch 1 are (dsin⁡(0), dcos⁡(0))
-  * The coordinates of patch 2 are (dsin⁡(2π/3), dcos⁡(2π))
-  * The coordinates of patch 3 are (dsin⁡(4π/3), dcos⁡(4π/3))
-
- * For the clumped landscape:
-  * The coordinates (x, y) of patch 1 are  (dsin⁡(-2π/15),dcos⁡(-2π/15))
-  * The coordinates of patch 2 are (dsin⁡(0),dcos⁡(0))
-  * The coordinates of patch 3 are (dsin⁡(2π/15), dcos(2π/15))
-
+  * For the evenly dispersed landscape: 
+    * The coordinates (x,y) of patch 1 are (dsin⁡(0), dcos⁡(0))
+    * The coordinates of patch 2 are (dsin⁡(2π/3), dcos⁡(2π))
+    * The coordinates of patch 3 are (dsin⁡(4π/3), dcos⁡(4π/3))
+  * For the clumped landscape:
+    * The coordinates (x, y) of patch 1 are  (dsin⁡(-2π/15),dcos⁡(-2π/15))
+    * The coordinates of patch 2 are (dsin⁡(0),dcos⁡(0))
+    * The coordinates of patch 3 are (dsin⁡(2π/15), dcos(2π/15))
 * The length and width of each patch (parameter c) is 40 spatial units. 
-
 * Within each patch, the exact location of food is determined by a Poisson point process:
- * Each cell within the patch has a 0.6 probability to contain food (parameter p).
- * Cells with food are assigned between 1 and 50 foraging loads, drawn from a uniform distribution.
+   * Each cell within the patch has a 0.6 probability to contain food (parameter p).
+   * Cells with food are assigned between 1 and 50 foraging loads, drawn from a uniform distribution.
 
 ### Create forager
 * Each forager is assigned a unique forager ID, between 1 and 100, to determine the order in which the agents act. 
@@ -353,7 +345,7 @@ Generates the resource landscape in which the colony forages (Figure S2).
   * If the scout begins recruiting:
     * The scout’s behavioral mode is set to “recruiting other foragers.”
     * The scout’s patch memory is added to the set of broadcasted positions.
- * If the scout does not begin recruiting:
+  * If the scout does not begin recruiting:
     * The behavioral mode is set to “returning to a previously visited patch.”
     * The scout executes the submodel “leave hive.”
   * The scout’s return count increases by 1.
